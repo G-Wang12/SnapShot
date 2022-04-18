@@ -5,10 +5,10 @@ import Pagination from "./Pagination";
 import { PhotoContext } from "../context/PhotoContext";
 
 const Gallery = (props) => {
-  const { perPage, currPage, onPageChanged } = useContext(PhotoContext);
+  const { perPage, currPage, totalPages, onPageChanged } =
+    useContext(PhotoContext);
 
   const PageChanged = (index) => {
-    // console.log(perPage);
     onPageChanged({ perPage, currPage: index });
   };
 
@@ -31,7 +31,11 @@ const Gallery = (props) => {
   }
   return (
     <div>
-      <Pagination onPageChanged={PageChanged} />
+      <Pagination
+        totalPages={totalPages}
+        onPageChanged={PageChanged}
+        selectedPage={currPage}
+      />
       <ul>{images}</ul>
       {noImages}
     </div>

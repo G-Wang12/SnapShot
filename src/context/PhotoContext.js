@@ -8,11 +8,12 @@ const PhotoContextProvider = (props) => {
   const [loading, setLoading] = useState(true);
   const [perPage, setPerPage] = useState(20);
   const [currPage, setCurrPage] = useState(1);
-  const currQuery = useRef("");
+  const [currQuery, setCurrQuery] = useState("");
+  const [totalPages, setTotalPages] = useState(1);
 
   useLayoutEffect(() => {
-    runSearch(currQuery.current);
-  }, [perPage, currPage]);
+    fetchData();
+  }, [perPage, currPage, currQuery]);
 
   const onPageChanged = ({ perPage, currPage }) => {
     setCurrPage(currPage);
@@ -20,14 +21,18 @@ const PhotoContextProvider = (props) => {
   };
 
   const runSearch = (query) => {
-    currQuery.current = query;
+    setCurrQuery(query);
+  };
+
+  const fetchData = () => {
     axios
       .get(
-        `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${query}&per_page=${perPage}&page=${currPage}&format=json&nojsoncallback=1`
+        `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${currQuery}&per_page=${perPage}&page=${currPage}&format=json&nojsoncallback=1`
       )
       .then((response) => {
         setImages(response.data.photos.photo);
         setLoading(false);
+        setTotalPages(response.data.photos.pages);
       })
       .catch((error) => {
         console.log(
@@ -38,7 +43,15 @@ const PhotoContextProvider = (props) => {
   };
   return (
     <PhotoContext.Provider
-      value={{ images, loading, runSearch, perPage, currPage, onPageChanged }}
+      value={{
+        images,
+        loading,
+        runSearch,
+        perPage,
+        currPage,
+        totalPages,
+        onPageChanged,
+      }}
     >
       {props.children}
     </PhotoContext.Provider>

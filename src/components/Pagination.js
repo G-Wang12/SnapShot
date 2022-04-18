@@ -1,35 +1,42 @@
 import React, { useEffect, useState, useLayoutEffect } from "react";
 import cx from "classnames";
 
-const Pagination = ({ pageNumber = 10, onPageChanged = () => null }) => {
-  const [pages, setPages] = useState([]);
-  const [selectedPage, setSelectedPage] = useState(1);
+const MAX_PAGES = 10;
 
-  useLayoutEffect(() => {
-    onPageChanged(selectedPage);
-  }, [selectedPage]);
+const Pagination = ({
+  totalPages = 10,
+  selectedPage = 1,
+  onPageChanged = () => null,
+}) => {
+  const [pages, setPages] = useState([]);
+
+  const [localPages, setLocalPages] = useState(1);
 
   useEffect(() => {
+    setLocalPages(Math.min(MAX_PAGES, totalPages));
+  }, [totalPages]);
+
+  useLayoutEffect(() => {
     var val = [];
-    for (var i = 1; i <= pageNumber; i++) {
+    for (var i = 1; i <= localPages; i++) {
       val.push(i);
     }
     setPages(val);
-  }, []);
+  }, [localPages]);
 
   const onClickIndex = (index) => {
-    setSelectedPage(index);
+    onPageChanged(index);
   };
 
   const onClickPrevious = () => {
     if (selectedPage >= 2) {
-      setSelectedPage(selectedPage - 1);
+      onPageChanged(selectedPage - 1);
     }
   };
 
   const onClickNext = () => {
-    if (selectedPage < pageNumber) {
-      setSelectedPage(selectedPage + 1);
+    if (selectedPage < localPages) {
+      onPageChanged(selectedPage + 1);
     }
   };
 
@@ -48,12 +55,13 @@ const Pagination = ({ pageNumber = 10, onPageChanged = () => null }) => {
             <div
               className={cx("page-index", { selected: p === selectedPage })}
               key={"page-index" + p}
-              onClick={() => {if (p === selectedPage) {
-                  return
-              } else {
+              onClick={() => {
+                if (p === selectedPage) {
+                  return;
+                } else {
                   onClickIndex(p);
                 }
-            }}
+              }}
             >
               {p}
             </div>
@@ -62,7 +70,7 @@ const Pagination = ({ pageNumber = 10, onPageChanged = () => null }) => {
       </div>
       <div
         className={cx("pagination-button", {
-          disable: selectedPage === pageNumber,
+          disable: selectedPage === localPages,
         })}
         onClick={onClickNext}
       >
