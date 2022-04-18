@@ -48,7 +48,12 @@ const Pagination = ({ pageNumber = 10, onPageChanged = () => null }) => {
             <div
               className={cx("page-index", { selected: p === selectedPage })}
               key={"page-index" + p}
-              onClick={() => onClickIndex(p)}
+              onClick={() => {if (p === selectedPage) {
+                  return
+              } else {
+                  onClickIndex(p);
+                }
+            }}
             >
               {p}
             </div>

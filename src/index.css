@@ -198,6 +198,8 @@ input {
 .pagination-container .page-numbers .selected {
   background-color: green;
   color: white;
+  cursor: auto;
+  pointer-events: none;
 }
 
 .pagination-container .disable {

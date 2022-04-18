@@ -8,7 +8,7 @@ const Gallery = (props) => {
   const { perPage, currPage, onPageChanged } = useContext(PhotoContext);
 
   const PageChanged = (index) => {
-    console.log(perPage);
+    // console.log(perPage);
     onPageChanged({ perPage, currPage: index });
   };
 
