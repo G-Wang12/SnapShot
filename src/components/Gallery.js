@@ -2,16 +2,19 @@ import React, { useContext } from "react";
 import NoImages from "./NoImages";
 import Image from "./Image";
 import Pagination from "./Pagination";
+import PageSizeSelection from "./PageSizeSelection";
 import { PhotoContext } from "../context/PhotoContext";
 
 const Gallery = (props) => {
-  const { perPage, currPage, totalPages, onPageChanged } =
+  const { perPage, currPage, totalPages, onPageChanged, changePerPage } =
     useContext(PhotoContext);
 
   const PageChanged = (index) => {
-    onPageChanged({ perPage, currPage: index });
+    onPageChanged(index);
   };
-
+  const handlePageAmount = (selectedOption) => {
+    changePerPage(selectedOption)
+  }
   const results = props.data;
   let images;
   let noImages;
@@ -31,11 +34,15 @@ const Gallery = (props) => {
   }
   return (
     <div>
-      <Pagination
-        totalPages={totalPages}
-        onPageChanged={PageChanged}
-        selectedPage={currPage}
-      />
+      <div className="pageOptions-containter">
+        <PageSizeSelection handlePageAmount={handlePageAmount} />
+        <Pagination
+          totalPages={totalPages}
+          onPageChanged={PageChanged}
+          selectedPage={currPage}
+        />
+      </div>
+      
       <ul>{images}</ul>
       {noImages}
     </div>

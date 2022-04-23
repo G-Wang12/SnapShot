@@ -11,13 +11,15 @@ const PhotoContextProvider = (props) => {
   const [currQuery, setCurrQuery] = useState("");
   const [totalPages, setTotalPages] = useState(1);
 
+  const changePerPage = (amount) => {
+    setPerPage(amount);
+  }
   useLayoutEffect(() => {
     fetchData();
   }, [perPage, currPage, currQuery]);
 
-  const onPageChanged = ({ perPage, currPage }) => {
+  const onPageChanged = (currPage) => {
     setCurrPage(currPage);
-    setPerPage(perPage);
   };
 
   const runSearch = (query) => {
@@ -51,6 +53,7 @@ const PhotoContextProvider = (props) => {
         currPage,
         totalPages,
         onPageChanged,
+        changePerPage,
       }}
     >
       {props.children}
