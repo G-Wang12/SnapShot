@@ -6,7 +6,7 @@ export const PhotoContext = createContext();
 const PhotoContextProvider = (props) => {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [perPage, setPerPage] = useState(20);
+  const [perPage, setPerPage] = useState(10);
   const [currPage, setCurrPage] = useState(1);
   const [currQuery, setCurrQuery] = useState("");
   const [totalPages, setTotalPages] = useState(1);
