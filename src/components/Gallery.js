@@ -34,8 +34,8 @@ const Gallery = (props) => {
   }
   return (
     <div>
-      <div className="pageOptions-containter">
-        <PageSizeSelection handlePageAmount={handlePageAmount} />
+      <div className="pageOptions-container">
+        <PageSizeSelection pageAmount={perPage} handlePageAmount={handlePageAmount} />
         <Pagination
           totalPages={totalPages}
           onPageChanged={PageChanged}

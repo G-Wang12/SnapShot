@@ -7,7 +7,7 @@ const options = [
   { value: 30, label: "30 per page" },
 ];
 const PageSizeSelection = ({ pageAmount = 10, handlePageAmount }) => {
-  const [currentSize, setCurrentSize] = useState(options[0].value);
+  const [currentSize, setCurrentSize] = useState(pageAmount);
 
   const handleChange = (selectedOption) => {
     setCurrentSize(selectedOption.value);
